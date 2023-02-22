@@ -5,7 +5,8 @@
 #import "FWFUIViewHostApi.h"
 
 @interface FWFUIViewHostApiImpl ()
-@property(nonatomic) FWFInstanceManager *instanceManager;
+// InstanceManager must be weak to prevent a circular reference with the object it stores.
+@property(nonatomic, weak) FWFInstanceManager *instanceManager;
 @end
 
 @implementation FWFUIViewHostApiImpl
@@ -24,7 +25,7 @@
 - (void)setBackgroundColorForViewWithIdentifier:(nonnull NSNumber *)identifier
                                         toValue:(nullable NSNumber *)color
                                           error:(FlutterError *_Nullable *_Nonnull)error {
-  if (!color) {
+  if (color == nil) {
     [[self viewForIdentifier:identifier] setBackgroundColor:nil];
   }
   int colorInt = color.intValue;

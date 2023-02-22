@@ -43,7 +43,13 @@ This plugin requires iOS 9.0 or higher.
 5. Select `GoogleService-Info.plist` from the file manager.
 6. A dialog will show up and ask you to select the targets, select the `Runner`
    target.
-7. Then add the `CFBundleURLTypes` attributes below into the
+7. If you need to authenticate to a backend server you can add a 
+   `SERVER_CLIENT_ID` key value pair in your `GoogleService-Info.plist`.
+   ```xml
+   <key>SERVER_CLIENT_ID</key>
+   <string>[YOUR SERVER CLIENT ID]</string>
+   ```
+8. Then add the `CFBundleURLTypes` attributes below into the
    `[my_project]/ios/Runner/Info.plist` file.
 
 ```xml
@@ -64,6 +70,22 @@ This plugin requires iOS 9.0 or higher.
 </array>
 <!-- End of the Google Sign-in Section -->
 ```
+
+As an alternative to adding `GoogleService-Info.plist` to your Xcode project, 
+you can instead configure your app in Dart code. In this case, skip steps 3 to 7
+ and pass `clientId` and `serverClientId` to the `GoogleSignIn` constructor:
+
+```dart
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  ...
+  // The OAuth client id of your app. This is required.
+  clientId: ...,
+  // If you need to authenticate to a backend server, specify its OAuth client. This is optional.
+  serverClientId: ...,
+);
+```
+
+Note that step 8 is still required.
 
 #### iOS additional requirement
 
